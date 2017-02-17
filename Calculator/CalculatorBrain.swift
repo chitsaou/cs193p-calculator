@@ -51,6 +51,11 @@ class CalculatorBrain {
         }
     }
 
+    func clear() {
+        accumulator = 0
+        pending = nil
+    }
+
     private func executePendingBinaryOperation () {
         if pending != nil {
             accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
