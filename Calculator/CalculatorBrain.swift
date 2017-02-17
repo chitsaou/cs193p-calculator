@@ -20,11 +20,13 @@ class CalculatorBrain {
         "e": Operation.Constant(M_E),
         "√": Operation.UnaryOperation(sqrt),
         "cos": Operation.UnaryOperation(cos),
+        "x²": Operation.UnaryOperation({ $0 * $0 }),
         "±": Operation.UnaryOperation({ -$0 }),
         "+": Operation.BinaryOperation({ $0 + $1 }),
         "-": Operation.BinaryOperation({ $0 - $1 }),
         "×": Operation.BinaryOperation({ $0 * $1 }),
         "÷": Operation.BinaryOperation({ $0 / $1 }),
+        "xⁿ": Operation.BinaryOperation(pow),
         "=": Operation.Equals
     ]
 
