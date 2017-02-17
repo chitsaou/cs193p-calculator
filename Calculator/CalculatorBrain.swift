@@ -11,6 +11,10 @@ import Foundation
 class CalculatorBrain {
     private var accumulator = 0.0
 
+    init() {
+        srand48(time(nil))
+    }
+
     func setOperand(_ operand: Double) {
         accumulator = operand
     }
@@ -27,13 +31,15 @@ class CalculatorBrain {
         "×": Operation.BinaryOperation({ $0 * $1 }),
         "÷": Operation.BinaryOperation({ $0 / $1 }),
         "xⁿ": Operation.BinaryOperation(pow),
-        "=": Operation.Equals
+        "=": Operation.Equals,
+        "rnd": Operation.Generator(drand48)
     ]
 
     private enum Operation {
         case Constant(Double)
         case UnaryOperation((Double) -> Double)
         case BinaryOperation((Double, Double) -> Double)
+        case Generator(() -> Double)
         case Equals
     }
 
@@ -47,6 +53,8 @@ class CalculatorBrain {
             case .BinaryOperation(let function):
                 executePendingBinaryOperation()
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
+            case .Generator(let function):
+                accumulator = function()
             case .Equals:
                 executePendingBinaryOperation()
             }
