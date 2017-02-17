@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet private weak var display: UILabel!
+    @IBOutlet private weak var descriptionDisplay: UILabel!
 
     private var userIsInTheMiddleOfTyping = false
 
@@ -43,6 +44,7 @@ class ViewController: UIViewController {
         userIsInTheMiddleOfTyping = false
         display.text = "0"
         brain.clear()
+        clearDescription()
     }
 
     @IBAction private func appendFloatingPoint(_ sender: UIButton) {
@@ -51,6 +53,8 @@ class ViewController: UIViewController {
         }
 
         userIsInTheMiddleOfTyping = true
+
+        updateDescription()
     }
 
     @IBAction private func performOperation(_ sender: UIButton) {
@@ -63,6 +67,21 @@ class ViewController: UIViewController {
             brain.performOperation(mathematicalSymbol)
             displayValue = brain.result
         }
+
+        updateDescription()
     }
+
+    private func updateDescription() {
+        if brain.isPartialResult {
+            descriptionDisplay.text = brain.description + "..."
+        } else {
+            descriptionDisplay.text = brain.description + "="
+        }
+    }
+
+    private func clearDescription() {
+        descriptionDisplay.text = " "
+    }
+
 }
 

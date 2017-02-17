@@ -10,6 +10,9 @@ import Foundation
 
 class CalculatorBrain {
     private var accumulator = 0.0
+    private var expression = [String]()
+    let LEFT_PAREN = "("
+    let RIGHT_PAREN = ")"
 
     init() {
         srand48(time(nil))
@@ -17,6 +20,12 @@ class CalculatorBrain {
 
     func setOperand(_ operand: Double) {
         accumulator = operand
+
+        if isPartialResult == false {
+            expression.removeAll()
+        }
+
+        expression.append(String(operand))
     }
 
     private var operations: Dictionary<String,Operation> = [
@@ -48,15 +57,21 @@ class CalculatorBrain {
             switch operation {
             case .Constant(let value):
                 accumulator = value
+                expression.append(symbol)
             case .UnaryOperation(let function):
                 accumulator = function(accumulator)
+                let lastOperand = expression.popLast()!
+                expression.append(contentsOf: [symbol, LEFT_PAREN, lastOperand, RIGHT_PAREN])
             case .BinaryOperation(let function):
                 executePendingBinaryOperation()
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
+                expression.append(symbol)
             case .Generator(let function):
                 accumulator = function()
+                expression.append(symbol)
             case .Equals:
                 executePendingBinaryOperation()
+                expression = [expression.joined()]
             }
         }
     }
@@ -64,10 +79,23 @@ class CalculatorBrain {
     func clear() {
         accumulator = 0
         pending = nil
+        expression = []
+    }
+
+    var description: String {
+        get { return expression.joined() }
+    }
+
+    func pushHistory(_ digit: String) {
+        expression.append(String(digit))
+    }
+
+    var isPartialResult: Bool {
+        get { return pending != nil }
     }
 
     private func executePendingBinaryOperation () {
-        if pending != nil {
+        if isPartialResult {
             accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
             pending = nil
         }
