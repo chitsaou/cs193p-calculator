@@ -254,7 +254,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                         <state key="normal" title="."/>
                                                         <connections>
-                                                            <action selector="touchDigit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="x33-CL-Lxu"/>
+                                                            <action selector="appendFloatingPoint:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SPg-iP-gol"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9bV-dP-YUn">
