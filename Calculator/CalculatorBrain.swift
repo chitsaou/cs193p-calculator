@@ -15,9 +15,13 @@ class CalculatorBrain {
 
     let LEFT_PAREN = "("
     let RIGHT_PAREN = ")"
+    let formatter: NumberFormatter
 
     init() {
         srand48(time(nil))
+        formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 6
     }
 
     func setOperand(_ operand: Double) {
@@ -28,7 +32,7 @@ class CalculatorBrain {
             expression.removeAll()
         }
 
-        expression.append(String(operand))
+        expression.append(formatter.string(from: NSNumber(value: operand))!)
     }
 
     private var operations: Dictionary<String,Operation> = [

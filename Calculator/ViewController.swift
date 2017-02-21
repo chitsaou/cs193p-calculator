@@ -34,7 +34,8 @@ class ViewController: UIViewController {
         }
 
         set {
-            display.text = String(newValue)
+            let value = newValue as NSNumber
+            display.text = brain.formatter.string(from: value)
         }
     }
 
