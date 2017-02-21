@@ -11,6 +11,8 @@ import Foundation
 class CalculatorBrain {
     private var accumulator = 0.0
     private var expression = [String]()
+    private var internalProgram = [AnyObject]()
+
     let LEFT_PAREN = "("
     let RIGHT_PAREN = ")"
 
@@ -20,6 +22,7 @@ class CalculatorBrain {
 
     func setOperand(_ operand: Double) {
         accumulator = operand
+        internalProgram.append(operand as AnyObject)
 
         if isPartialResult == false {
             expression.removeAll()
@@ -53,6 +56,8 @@ class CalculatorBrain {
     }
 
     func performOperation(_ symbol: String) {
+        internalProgram.append(symbol as AnyObject)
+
         if let operation = operations[symbol] {
             switch operation {
             case .Constant(let value):
@@ -80,6 +85,7 @@ class CalculatorBrain {
         accumulator = 0
         pending = nil
         expression = []
+        internalProgram = []
     }
 
     var description: String {
@@ -106,6 +112,28 @@ class CalculatorBrain {
     private struct PendingBinaryOperationInfo {
         var binaryFunction: (Double, Double) -> Double
         var firstOperand: Double
+    }
+
+    typealias PropertyList = AnyObject
+
+    var program: PropertyList {
+        get {
+            return internalProgram as PropertyList
+        }
+
+        set {
+            clear()
+
+            if let arrayOfOps = newValue as? [AnyObject] {
+                for op in arrayOfOps {
+                    if let operand = op as? Double {
+                        setOperand(operand)
+                    } else if let operation = op as? String {
+                        performOperation(operation)
+                    }
+                }
+            }
+        }
     }
 
     var result: Double {

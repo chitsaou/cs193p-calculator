@@ -71,6 +71,19 @@ class ViewController: UIViewController {
         updateDescription()
     }
 
+    var savedProgram: CalculatorBrain.PropertyList?
+
+    @IBAction func save() {
+        savedProgram = brain.program
+    }
+
+    @IBAction func restore() {
+        if savedProgram != nil {
+            brain.program = savedProgram!
+            displayValue = brain.result
+        }
+    }
+
     private func updateDescription() {
         if brain.isPartialResult {
             descriptionDisplay.text = brain.description + "..."
