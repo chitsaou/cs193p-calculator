@@ -28,13 +28,13 @@ class ViewController: UIViewController {
         userIsInTheMiddleOfTyping = true
     }
 
-    private var displayValue: Double {
+    private var displayValue: Double? {
         get {
-            return Double(display.text!)!
+            return Double(display.text!)
         }
 
         set {
-            let value = newValue as NSNumber
+            let value = newValue! as NSNumber
             display.text = brain.formatter.string(from: value)
         }
     }
@@ -59,8 +59,8 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func performOperation(_ sender: UIButton) {
-        if userIsInTheMiddleOfTyping {
-            brain.setOperand(displayValue)
+        if userIsInTheMiddleOfTyping, let value = displayValue {
+            brain.setOperand(value)
             userIsInTheMiddleOfTyping = false
         }
 
