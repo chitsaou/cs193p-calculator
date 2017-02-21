@@ -83,6 +83,10 @@
                                                         <rect key="frame" x="323.33333333333326" y="0.0" width="70.666666666666686" height="96.333333333333329"/>
                                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                        <state key="normal" title="⌫"/>
+                                                        <connections>
+                                                            <action selector="delete" destination="BYZ-38-t0r" eventType="touchUpInside" id="JQo-HQ-4Du"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>

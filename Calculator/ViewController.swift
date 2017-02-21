@@ -41,6 +41,20 @@ class ViewController: UIViewController {
 
     private var brain = CalculatorBrain()
 
+    @IBAction func delete() {
+        if let text = display.text {
+            var chars = text.characters
+            chars.removeLast()
+
+            if chars.isEmpty {
+                display.text = "0"
+                userIsInTheMiddleOfTyping = false
+            } else {
+                display.text = String(chars)
+            }
+        }
+    }
+
     @IBAction private func clear(_ sender: UIButton) {
         userIsInTheMiddleOfTyping = false
         display.text = "0"
